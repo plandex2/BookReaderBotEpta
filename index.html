@@ -28,15 +28,10 @@
         </div>
     </div>
     <script>
-        // Инициализация Mini App
-        console.log("Initializing Mini App...");
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
-
-        // Загрузка содержимого книги
+        // Загрузка списка книг
         async function loadBook() {
-            console.log("Sending request to bot:", { type: 'get_book', file_name: 'book.fb2' });    
-            Telegram.WebApp.sendData(JSON.stringify({ type: 'get_book', file_name: 'book.fb2' }));
+            console.log("Requesting list of books...");
+            Telegram.WebApp.sendData(JSON.stringify({ type: 'get_books_list' }));
         }
 
         // Обработка ответа от бота
@@ -44,19 +39,24 @@
             console.log("Received data from bot:", event.data);
             try {
                 const data = JSON.parse(event.data);
-                if (data.text) {
-                    console.log("Displaying book content...");
+                if (data.type === 'books_list') {
+                    const file_name = data.files[0];  // Используем первый файл из списка
+                    console.log("Requesting book:", file_name);
+                    Telegram.WebApp.sendData(JSON.stringify({ type: 'get_book', file_name: file_name }));
+                } else if (data.type === 'book_content') {
                     document.getElementById('book-content').innerText = data.text;
                 } else {
-                    console.log("No text received from bot.");
+                    console.log("Unknown response type:", data.type);
                 }
             } catch (error) {
                 console.error("Error parsing bot response:", error);
             }
         });
 
-        // Запуск загрузки книги
+        // Инициализация
         loadBook();
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
     </script>
 </body>
 </html>
