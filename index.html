@@ -35,7 +35,7 @@
         // Загрузка содержимого книги
         async function loadBook() {
             const file_name = 'book.fb2'; // Имя файла книги
-            Telegram.WebApp.sendData(JSON.stringify({ type: 'get_book', file_name }));
+           console.log Telegram.WebApp.sendData(JSON.stringify({ type: 'get_book', file_name }));
         }
 
         // Обработка ответа от бота
