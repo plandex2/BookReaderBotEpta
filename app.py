@@ -37,7 +37,8 @@ async def handle_web_app_data(update: Update, context: ContextTypes.DEFAULT_TYPE
             await update.message.reply_text(f"Ошибка: {str(e)}")
 
 # Создание и запуск бота
-app = ApplicationBuilder().token("YOUR_TELEGRAM_BOT_TOKEN").build()
+app = ApplicationBuilder().token("7666288091:AAHpd7uYsmCrrABQRGJP5TLA92INsnPnAwE
+").build()
 
 app.add_handler(CommandHandler("start", start))
 app.add_handler(MessageHandler(filters.Document.ALL, handle_document))
